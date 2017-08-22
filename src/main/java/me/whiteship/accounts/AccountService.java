@@ -34,6 +34,13 @@ public class AccountService {
 		Account account  = modelMapper.map(dto, Account.class);
 		
 		// TODO verify username is valid or not
+		String username = dto.getUsername();
+		if (repository.findByUsername(username) != null) {
+			throw new UserDuplicatedException(username);
+		}
+		
+		
+		
 		// TODO hashing password
 		
 		Date now = new Date();
