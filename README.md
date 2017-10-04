@@ -22,3 +22,9 @@ Tutorial 3
   2. Using parameter   -> pass parameter as function parameter
   3. Using exception   -> throw exception to caller
   4. Using asynchronous way like callback
+  
+Tutorial 4
+- Github address : https://github.com/keesun/amugona
+  1. Paging by Pageable
+  2. Stream vs ParallelStream
+     If function in map is simple or using lazy fatching, then do not use ParallelStream.

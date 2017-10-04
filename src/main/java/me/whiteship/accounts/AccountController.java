@@ -1,9 +1,15 @@
 package me.whiteship.accounts;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import me.whiteship.commons.ErrorResponse;
 
@@ -80,6 +87,7 @@ public class AccountController {
 		return new ResponseEntity<>(modelMapper.map(newAccount, AccountDto.Response.class), HttpStatus.CREATED);
 	}
 	
+	// Exception handling using kind of call back
 	@ExceptionHandler(UserDuplicatedException.class)
 	public ResponseEntity handleUserDuplicatedException(UserDuplicatedException e) {
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -91,5 +99,26 @@ public class AccountController {
 	@RequestMapping("/hello")
 	public @ResponseBody String hello() {
 		return "Hello Spring Boot";
+	}
+	
+	// If you set Spring Data JPA in classpath, then just can use Pageable for paging
+	// Otherwise, need to set @EnableSpringDataWebSupport before class
+	// or <bean class="org.springframework.data.web.config.SpringDataWebConfiguration" /> in XML
+	// For example, if request is /accounts?page=0&size=20&sort=username&sort=joined,desc
+	// page related parameters will be assigned to Pageable automatically
+	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity getAccounts(Pageable pageable) {
+		Page<Account> page = repository.findAll(pageable);	// If you don't have service logic, then you can use repository directly
+		
+		// 1. Since Account has password, it's not good to return page immediately
+		// 2. in case of using lazy fatching or function used in map() is too simple, don't use parallelStream().
+		List<AccountDto.Response> content = page.getContent().parallelStream()
+			.map(account -> modelMapper.map(account, AccountDto.Response.class))
+			.collect(Collectors.toList());
+		
+		PageImpl<AccountDto.Response> result = new PageImpl<>(content, pageable, page.getTotalElements());
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }

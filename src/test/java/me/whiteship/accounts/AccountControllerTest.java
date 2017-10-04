@@ -2,9 +2,10 @@ package me.whiteship.accounts;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,8 @@ import me.whiteship.Application;
 @SpringBootTest(classes = Application.class)
 //@ContextConfiguration(loader = SpringApplicationContextLoader.class, classes = )
 @WebAppConfiguration
+@Transactional	// Transactional in Test is doing rollback for all data change
+//@Rollback(true)	// Whole test result will be rolled back
 public class AccountControllerTest {
 	
 	@Autowired
@@ -34,6 +38,9 @@ public class AccountControllerTest {
 	
 	@Autowired
 	ObjectMapper objectMapper;
+	
+	@Autowired
+	AccountService service;
 
 	MockMvc mockMvc;
 	
@@ -43,6 +50,7 @@ public class AccountControllerTest {
 	}
 	
 	@Test
+	//@commit	// Method level, individual test result won't be rolled back.
 	public void createAccount() throws Exception {
 		AccountDto.Create createDto = new AccountDto.Create();
 		createDto.setUsername("whiteship");
@@ -83,4 +91,19 @@ public class AccountControllerTest {
 		result.andExpect(jsonPath("$.code", is("bad.request")));
 	}
 	
+	
+	// TODO getAccounts()
+	
+	@Test
+	public void getAccounts() throws Exception{
+		AccountDto.Create createDto = new AccountDto.Create();
+		createDto.setUsername("whiteship");
+		createDto.setPassword("password");
+		service.createAccount(createDto);
+		
+		ResultActions result = mockMvc.perform(get("/accounts"));
+		
+		result.andDo(print());
+		result.andExpect(status().isOk());
+	}
 }

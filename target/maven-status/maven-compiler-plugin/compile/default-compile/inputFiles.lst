@@ -1,3 +1,8 @@
 C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\Account.java
 C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\AccountController.java
+C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\AccountService.java
 C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\Application.java
+C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\AccountRepository.java
+C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\AccountDto.java
+C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\accounts\UserDuplicatedException.java
+C:\workspace_jee_oxy\me.springboot\src\main\java\me\whiteship\commons\ErrorResponse.java
