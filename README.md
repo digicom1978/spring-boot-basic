@@ -28,3 +28,36 @@ Tutorial 4
   1. Paging by Pageable
   2. Stream vs ParallelStream
      If function in map is simple or using lazy fatching, then do not use ParallelStream.
+
+Tutorial 5
+- Logging functionalities supported by Spring Boot
+	slf4j : wrapper for logging libraries such as logback, log4j, jul
+		- select logging library during compile time, by checking library on classpath
+	xxx-over-slf4j : front library to slf4j
+- Set logging option in application.properties under src/main/resources, src/test/resources
+	logging.level.org.springframework.web=DEBUG : org springframework web Debug
+	logging.level.org.springframework=off : all off
+	==> all off except web related log
+	
+	logging.path=logs : set log folder (if it's not, spring will create)
+	logging.file=logs/amugona.log : set logging path with file name (if both are present, then logging.path will be ignored
+		* Every 10MB, new file will be created and used (file-appender.xml)
+		* By maxHistory property, automatically can delete old log files
+		* Some properties would cause heavy load, so not recommended
+		
+		How to change Log library -> change dependency in pom.xml
+	
+	https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-configure-logback-for-logging
+	
+	** Logstash  
+- To customize log style, put logback.xml with custom setting into src/main/resources
+* with plugin,logback can save logs into Elastic search
+
+
+
+
+
+- Customizing banner
+	-- src/main/resources > banner.txt
+	-- ASCII generator
+	-- https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/htmlsingle/#boot-features-banner

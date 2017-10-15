@@ -88,6 +88,8 @@ public class AccountController {
 	}
 	
 	// Exception handling using kind of call back
+	// If you want to make exception with global level handler, 
+	// then, move this method into commons.ExceptionHandlers.java
 	@ExceptionHandler(UserDuplicatedException.class)
 	public ResponseEntity handleUserDuplicatedException(UserDuplicatedException e) {
 		ErrorResponse errorResponse = new ErrorResponse();
@@ -121,4 +123,10 @@ public class AccountController {
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	// TODO stream() vs parallelStream()
+	// TODO HATEOAS
+	// TODO View
+	// NSPA 1. Thymeleaf
+	// SPA  2. Angular 3. React
 }

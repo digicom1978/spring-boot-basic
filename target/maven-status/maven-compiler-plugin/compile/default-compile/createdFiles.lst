@@ -1,11 +1,11 @@
+me\whiteship\accounts\AccountDto.class
+me\whiteship\accounts\UserDuplicatedException.class
+me\whiteship\commons\ErrorResponse.class
 me\whiteship\accounts\Account.class
 me\whiteship\accounts\AccountRepository.class
-me\whiteship\accounts\AccountDto.class
 me\whiteship\Application.class
 me\whiteship\accounts\AccountService.class
 me\whiteship\accounts\AccountDto$Create.class
-me\whiteship\accounts\UserDuplicatedException.class
 me\whiteship\accounts\AccountDto$Response.class
 me\whiteship\commons\ErrorResponse$FieldError.class
 me\whiteship\accounts\AccountController.class
-me\whiteship\commons\ErrorResponse.class
