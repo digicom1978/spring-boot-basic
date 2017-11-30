@@ -61,3 +61,9 @@ Tutorial 5
 	-- src/main/resources > banner.txt
 	-- ASCII generator
 	-- https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/htmlsingle/#boot-features-banner
+
+Tutorial 6
+- Implementing GET, UPDATE API
+
+* http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api
+
